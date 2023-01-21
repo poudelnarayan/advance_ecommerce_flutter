@@ -17,29 +17,34 @@ import 'package:ecommerce_app/src/features/products/domain/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Shows the product page for a given product ID.
-class ProductScreen extends ConsumerWidget {
+class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key, required this.productId});
   final String productId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final productRepository = ref.watch(productRepositoryProvider);
-    final product = productRepository.getProduct(productId);
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HomeAppBar(),
-      body: product == null
-          ? EmptyPlaceholderWidget(
-              message: 'Product not found'.hardcoded,
-            )
-          : CustomScrollView(
-              slivers: [
-                ResponsiveSliverCenter(
-                  padding: const EdgeInsets.all(Sizes.p16),
-                  child: ProductDetails(product: product),
-                ),
-                ProductReviewsList(productId: productId),
-              ],
-            ),
+      body: Consumer(
+        // only consumer widget rebuilds when the value changes
+        builder: ((context, ref, child) {
+          final productRepository = ref.watch(productRepositoryProvider);
+          final product = productRepository.getProduct(productId);
+          return product == null
+              ? EmptyPlaceholderWidget(
+                  message: 'Product not found'.hardcoded,
+                )
+              : CustomScrollView(
+                  slivers: [
+                    ResponsiveSliverCenter(
+                      padding: const EdgeInsets.all(Sizes.p16),
+                      child: ProductDetails(product: product),
+                    ),
+                    ProductReviewsList(productId: productId),
+                  ],
+                );
+        }),
+      ),
     );
   }
 }
