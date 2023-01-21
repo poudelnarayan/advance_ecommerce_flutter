@@ -18,7 +18,7 @@ class ProductsGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productsListValue = ref.watch(productsListFutureProvider);
+    final productsListValue = ref.watch(productsListStreamProvider);
     // whenever we watch an StreamProvider , the widget will rebuild every time the stream emits a new value
     return productsListValue.when(
       data: (products) => products.isEmpty
