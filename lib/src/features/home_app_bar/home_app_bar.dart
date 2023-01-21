@@ -20,8 +20,7 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: get user from auth repository
-    const user = null;
-    // AppUser(uid: '123', email: 'test@test.com');
+    const user = AppUser(uid: '123', email: 'test@test.com');
     // * This widget is responsive.
     // * On large screen sizes, it shows all the actions in the app bar.
     // * On small screen sizes, it shows only the shopping cart icon and a
@@ -47,18 +46,18 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
             ActionTextButton(
               key: MoreMenuButton.ordersKey,
               text: 'Orders'.hardcoded,
-              onPressed: () => context.goNamed(AppRoute.orders.name),
+              onPressed: () => context.pushNamed(AppRoute.orders.name),
             ),
             ActionTextButton(
               key: MoreMenuButton.accountKey,
               text: 'Account'.hardcoded,
-              onPressed: () => context.goNamed(AppRoute.account.name),
+              onPressed: () => context.pushNamed(AppRoute.account.name),
             ),
           ] else
             ActionTextButton(
               key: MoreMenuButton.signInKey,
               text: 'Sign In'.hardcoded,
-              onPressed: () => context.go(AppRoute.signIn.name),
+              onPressed: () => context.pushNamed(AppRoute.signIn.name),
             )
         ],
       );
