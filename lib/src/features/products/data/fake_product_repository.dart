@@ -56,17 +56,6 @@ final productsListFutureProvider =
 
 final productProvider =
     StreamProvider.autoDispose.family<Product?, String>(((ref, id) {
-  debugPrint('created productProvider ');
-  ref.onDispose(() => debugPrint('disposed'));
-
-  // family modifier is used whenever we need to pass a data to the provider
-  //autoDispose modifier is used to dispose the provider listening to streams when we dont need them
-  final link = ref.keepAlive(); // for data caching
-  Timer(const Duration(seconds: 10), () {
-    // closes the provider after 10 seconds
-    link.close();
-  });
-
   final productsRepository = ref.watch(productRepositoryProvider);
   return productsRepository.watchProduct(id);
 }));
