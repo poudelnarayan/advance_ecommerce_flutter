@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/src/features/account/account_screen.dart';
+import 'package:ecommerce_app/src/features/not_found/not_found_screen.dart';
 import 'package:ecommerce_app/src/features/orders_list/orders_list_screen.dart';
 import 'package:ecommerce_app/src/features/product_page/product_screen.dart';
 import 'package:ecommerce_app/src/features/shopping_cart/shopping_cart_screen.dart';
@@ -17,6 +18,7 @@ final goRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
+      name: AppRoute.home.name,
       builder: ((context, state) => const ProductsListScreen()),
       routes: [
         GoRoute(
@@ -29,7 +31,7 @@ final goRouter = GoRouter(
         ),
         GoRoute(
           path: 'cart',
-          name: AppRoute.home.name,
+          name: AppRoute.cart.name,
           // builder: ((context, state) => const ShoppingCartScreen()), => this produces a back button on the page
           pageBuilder: ((context, state) => MaterialPage(
                 // to make a full screen shopping cart
@@ -71,4 +73,5 @@ final goRouter = GoRouter(
       ],
     ),
   ],
+  errorBuilder: (context, state) => const NotFoundScreen(),
 );
