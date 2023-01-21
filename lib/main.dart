@@ -10,8 +10,9 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    // * Entry point of the app
+    // turn off the # in the URLs on the web
     GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
+    // * Entry point of the app
     runApp(const MyApp());
 
     // * This code will present some error UI if any uncaught exception happens
@@ -19,14 +20,13 @@ void main() async {
       FlutterError.presentError(details);
     };
     ErrorWidget.builder = (FlutterErrorDetails details) {
-      return MaterialApp(
-          home: Scaffold(
+      return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
           title: Text('An error occurred'.hardcoded),
         ),
         body: Center(child: Text(details.toString())),
-      ));
+      );
     };
   }, (Object error, StackTrace stack) {
     // * Log any errors to console
