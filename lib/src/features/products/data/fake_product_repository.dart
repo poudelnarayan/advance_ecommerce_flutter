@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:ecommerce_app/src/constants/test_products.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/product.dart';
@@ -38,18 +41,32 @@ final productRepositoryProvider = Provider<FakeProductRepository>((ref) {
   return FakeProductRepository();
 });
 
-final productsListStreamProvider = StreamProvider<List<Product>>((ref) {
+final productsListStreamProvider =
+    StreamProvider.autoDispose<List<Product>>((ref) {
+  debugPrint('created productListStreamProvider');
   final productRepository = ref.watch(productRepositoryProvider);
   return productRepository.watchProductList();
 });
 
-final productsListFutureProvider = FutureProvider<List<Product>>((ref) {
+final productsListFutureProvider =
+    FutureProvider.autoDispose<List<Product>>((ref) {
   final productRepository = ref.watch(productRepositoryProvider);
   return productRepository.fetchProductsList();
 });
 
-final productProvider = StreamProvider.family<Product?, String>(((ref, id) {
+final productProvider =
+    StreamProvider.autoDispose.family<Product?, String>(((ref, id) {
+  debugPrint('created productProvider ');
+  ref.onDispose(() => debugPrint('disposed'));
+
   // family modifier is used whenever we need to pass a data to the provider
+  //autoDispose modifier is used to dispose the provider listening to streams when we dont need them
+  final link = ref.keepAlive(); // for data caching
+  Timer(const Duration(seconds: 10), () {
+    // closes the provider after 10 seconds
+    link.close();
+  });
+
   final productsRepository = ref.watch(productRepositoryProvider);
   return productsRepository.watchProduct(id);
 }));
