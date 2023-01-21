@@ -1,11 +1,9 @@
 import 'package:ecommerce_app/src/constants/test_products.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/product.dart';
 
 class FakeProductRepository {
-  FakeProductRepository._(); // making the constructor private so that the class cant be instantiated outside of this file
-  static FakeProductRepository instance = FakeProductRepository._();
-
   final List<Product> _products = kTestProducts;
 
   List<Product> getProductList() {
@@ -32,3 +30,7 @@ class FakeProductRepository {
         id)); // .map will be executed every time eatchProductList() changes a value
   }
 }
+
+final productRepositoryProvider = Provider<FakeProductRepository>((ref) {
+  return FakeProductRepository();
+});
