@@ -22,7 +22,6 @@ class AccountScreen extends ConsumerWidget {
             text: 'Logout'.hardcoded,
             onPressed: () async {
               // get the navigator before the async gap
-              final navigator = Navigator.of(context);
               final logout = await showAlertDialog(
                 context: context,
                 title: 'Are you sure?'.hardcoded,
@@ -30,7 +29,7 @@ class AccountScreen extends ConsumerWidget {
                 defaultActionText: 'Logout'.hardcoded,
               );
               if (logout == true) {
-                ref.read(authRepositoryProvider).signOut();
+                await ref.read(authRepositoryProvider).signOut();
                 Navigator.of(context).pop();
               }
             },
